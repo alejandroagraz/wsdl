@@ -1,163 +1,206 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
-    xmlns:tns="urn:arnleadservicewsdl"
-    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-    xmlns="http://schemas.xmlsoap.org/wsdl/"
-    targetNamespace="urn:helloservicewsdl">
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" 
+    xmlns:tns="urn:arnleadservicewsdl" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:helloservicewsdl">
 
     <types>
         <xsd:schema targetNamespace="urn:soapserverwsdl">
-            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
-            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
         </xsd:schema>
     </types>
 
-     <message name="RequestRegisterCustomer">
-      <part name="dni" type="xsd:long"/>
-      <part name="name" type="xsd:string"/>
-      <part name="last_name" type="xsd:string"/>
-      <part name="phone" type="xsd:long"/>
-      <part name="email" type="xsd:string"/>
-     </message>
+    <message name="RequestLogin">
+        <part name="email" type="xsd:string" />
+        <part name="id" type="xsd:long" />
+        <part name="token" type="xsd:string" />
+        <part name="expiration_date" type="xsd:string" />
+    </message>
 
-     <message name="RequestRechargeWallet">
-      <part name="dni" type="xsd:long"/>
-      <part name="phone" type="xsd:long"/>
-      <part name="balance" type="xsd:double"/>
-     </message>
+    <message name="RequestRegisterCustomer">
+        <part name="email" type="xsd:string" />
+        <part name="password" type="xsd:string" />
+        <part name="dni" type="xsd:long" />
+        <part name="name" type="xsd:string" />
+        <part name="last_name" type="xsd:string" />
+        <part name="phone" type="xsd:long" />
+    </message>
 
-     <message name="RequestPayment">
-        <part name="dni" type="xsd:long"/>
-        <part name="phone" type="xsd:long"/>
-        <part name="amount_payable" type="xsd:double"/>
-        <part name="id" type="xsd:long"/>
-        <part name="token" type="xsd:string"/>
-        <part name="session_id" type="xsd:string"/>
-     </message>
+    <message name="RequestRechargeWallet">
+        <part name="dni" type="xsd:long" />
+        <part name="phone" type="xsd:long" />
+        <part name="balance" type="xsd:double" />
+        <part name="token" type="xsd:string" />
+    </message>
 
-     <message name="RequestConfirmPayment">
-      <part name="id" type="xsd:long"/>
-      <part name="balance" type="xsd:double"/>
-      <part name="token" type="xsd:string"/>
-      <part name="session_id" type="xsd:string"/>
-     </message>
+    <message name="RequestPayment">
+        <part name="dni" type="xsd:long" />
+        <part name="phone" type="xsd:long" />
+        <part name="amount_payable" type="xsd:double" />
+        <part name="id" type="xsd:long" />
+        <part name="token_email" type="xsd:string" />
+        <part name="session_id" type="xsd:string" />
+        <part name="token" type="xsd:string" />
+    </message>
 
-     <message name="RequestCheckBalance">
-      <part name="dni" type="xsd:long"/>
-      <part name="phone" type="xsd:long"/>
-     </message>
+    <message name="RequestConfirmPayment">
+        <part name="id" type="xsd:long" />
+        <part name="token" type="xsd:string" />
+        <part name="balance" type="xsd:double" />
+        <part name="token_email" type="xsd:string" />
+        <part name="session_id" type="xsd:string" />
+    </message>
+
+    <message name="RequestCheckBalance">
+        <part name="dni" type="xsd:long" />
+        <part name="phone" type="xsd:long" />
+        <part name="token" type="xsd:string" />
+    </message>
+
+    <message name="RequestLogout">
+        <part name="id" type="xsd:long" />
+        <part name="token" type="xsd:string" />
+        <part name="expiration_date" type="xsd:string" />
+    </message>
 
     <message name="Response">
-        <part name="return" type="xsd:string"/>
+        <part name="return" type="xsd:string" />
     </message>
 
     <portType name="soapserverwsdlPortType">
-        <operation name="registerCustomer" parameterOrder="dni name last_name phone email">
-            <input message="tns:RequestRegisterCustomer"/>
-            <output message="tns:Response"/>
+
+        <operation name="login" parameterOrder="email id token expiration_date">
+            <input message="tns:RequestLogin" />
+            <output message="tns:Response" />
+        </operation>
+        
+        <operation name="registerCustomer" parameterOrder="email password dni name last_name phone">
+            <input message="tns:RequestRegisterCustomer" />
+            <output message="tns:Response" />
         </operation>
 
-        <operation name="rechargeWallet" parameterOrder="dni phone balance">
-            <input message="tns:RequestRechargeWallet"/>
-            <output message="tns:Response"/>
+        <operation name="rechargeWallet" parameterOrder="dni phone balance token">
+            <input message="tns:RequestRechargeWallet" />
+            <output message="tns:Response" />
         </operation>
 
-        <operation name="payment" parameterOrder="dni phone amount_payable id token session_id">
-            <input message="tns:RequestPayment"/>
-            <output message="tns:Response"/>
+        <operation name="payment" parameterOrder="dni phone amount_payable id token_email session_id token">
+            <input message="tns:RequestPayment" />
+            <output message="tns:Response" />
         </operation>
 
-        <operation name="confirmPayment" parameterOrder="id balance token session_id">
-            <input message="tns:RequestConfirmPayment"/>
-            <output message="tns:Response"/>
+        <operation name="confirmPayment" parameterOrder="id token balance token_email session_id">
+            <input message="tns:RequestConfirmPayment" />
+            <output message="tns:Response" />
         </operation>
 
-        <operation name="checkBalance" parameterOrder="dni phone">
-            <input message="tns:RequestCheckBalance"/>
-            <output message="tns:Response"/>
+        <operation name="checkBalance" parameterOrder="dni phone token">
+            <input message="tns:RequestCheckBalance" />
+            <output message="tns:Response" />
+        </operation>
+
+        <operation name="logout" parameterOrder="id token expiration_date">
+            <input message="tns:RequestLogout" />
+            <output message="tns:Response" />
         </operation>
     </portType>
 
     <binding name="soapserverwsdlBinding" type="tns:soapserverwsdlPortType">
-        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
-        <operation name="registerCustomer">
-            <soap:operation soapAction="urn:arnleadservicewsdl#registerCustomer" style="rpc"/>
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+
+        <operation name="login">
+            <soap:operation soapAction="urn:arnleadservicewsdl#login" style="rpc" />
 
             <input>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
 
             <output>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+
+        <operation name="registerCustomer">
+            <soap:operation soapAction="urn:arnleadservicewsdl#registerCustomer" style="rpc" />
+
+            <input>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
 
         <operation name="rechargeWallet">
-            <soap:operation soapAction="urn:arnleadservicewsdl#rechargeWallet" style="rpc"/>
+            <soap:operation soapAction="urn:arnleadservicewsdl#rechargeWallet" style="rpc" />
 
             <input>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
 
             <output>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
 
         <operation name="payment">
-            <soap:operation soapAction="urn:arnleadservicewsdl#payment" style="rpc"/>
+            <soap:operation soapAction="urn:arnleadservicewsdl#payment" style="rpc" />
 
             <input>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
 
             <output>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
 
         <operation name="confirmPayment">
-            <soap:operation soapAction="urn:arnleadservicewsdl#confirmPayment" style="rpc"/>
+            <soap:operation soapAction="urn:arnleadservicewsdl#confirmPayment" style="rpc" />
 
             <input>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
 
             <output>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
 
         <operation name="checkBalance">
-            <soap:operation soapAction="urn:arnleadservicewsdl#checkBalance" style="rpc"/>
+            <soap:operation soapAction="urn:arnleadservicewsdl#checkBalance" style="rpc" />
 
             <input>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
 
             <output>
-                <soap:body use="encoded" namespace="urn:soapserverwsdl"
-                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+
+        <operation name="logout">
+            <soap:operation soapAction="urn:arnleadservicewsdl#logout" style="rpc" />
+
+            <input>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:soapserverwsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
     </binding>
 
     <service name="soapserverwsdl">
         <port name="soapserverwsdlPort" binding="tns:soapserverwsdlBinding">
-            <soap:address location="http://localhost:8000/soap/server"/>
+            <soap:address location="http://localhost:8000/soap/server" />
         </port>
     </service>
 </definitions>
